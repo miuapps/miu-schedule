@@ -13,6 +13,6 @@ public class Block {
     @Id
     private String id;
     private String name;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
 }
