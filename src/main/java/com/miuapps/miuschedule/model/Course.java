@@ -2,17 +2,13 @@ package com.miuapps.miuschedule.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import java.util.Date;
 
 /**
- * Block is duration of studying the course.
- *
+ * This is the Course class which every student take during each block.
  */
 @Data
-public class Block {
+public class Course {
     @Id
     private String id;
     private String name;
-    private Date startDate;
-    private Date endDate;
 }
