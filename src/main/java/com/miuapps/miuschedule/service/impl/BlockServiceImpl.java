@@ -6,6 +6,8 @@ import com.miuapps.miuschedule.service.IBlockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * BlockServiceImpl class implements IBlockService and saves the block object to
  * mongodb using blockRepository save method.
@@ -27,5 +29,10 @@ public class BlockServiceImpl implements IBlockService {
     @Override
     public void saveBlock(Block block) {
         blockRepository.save(block);
+    }
+
+    @Override
+    public List<Block> getAllBlock(){
+        return blockRepository.findAll();
     }
 }

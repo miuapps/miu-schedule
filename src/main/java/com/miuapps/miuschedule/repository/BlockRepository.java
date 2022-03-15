@@ -4,6 +4,8 @@ package com.miuapps.miuschedule.repository;
 import com.miuapps.miuschedule.model.Block;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
+
 /**
  * The interface Block repository.
  */
@@ -24,4 +26,5 @@ public interface BlockRepository extends MongoRepository<Block, String> {
      */
     Block findBlockByName(String blockName);
 
+    List<Block> findAll();
 }

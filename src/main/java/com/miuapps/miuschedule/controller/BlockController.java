@@ -5,6 +5,8 @@ import com.miuapps.miuschedule.service.impl.BlockServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * The type Block controller.
  */
@@ -31,6 +33,12 @@ public class BlockController {
     @PostMapping(value = "")
     public void saveBlock(@RequestBody Block block){
         blockServiceImpl.saveBlock(block);
+    }
+
+    @GetMapping(value="")
+    @ResponseBody
+    public List<Block> getAllBlock() {
+        return blockServiceImpl.getAllBlock();
     }
 
 
