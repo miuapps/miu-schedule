@@ -68,6 +68,11 @@ public class CourseController {
         courseServiceImpl.deleteCourseByID(courseID);
     }
 
+    /**
+     * Update course.
+     *
+     * @param course the course
+     */
     @PutMapping(value = "")
     public void updateCourse(@RequestBody Course course){
         courseServiceImpl.updateCourse(course);

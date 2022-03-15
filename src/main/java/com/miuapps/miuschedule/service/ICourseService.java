@@ -37,6 +37,11 @@ public interface ICourseService {
      */
     void deleteCourseByID(String courseID);
 
+    /**
+     * Update course.
+     *
+     * @param course the course
+     */
     void updateCourse(Course course);
 
 }
