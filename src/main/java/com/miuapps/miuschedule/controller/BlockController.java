@@ -3,7 +3,6 @@ package com.miuapps.miuschedule.controller;
 import com.miuapps.miuschedule.model.Block;
 import com.miuapps.miuschedule.service.impl.BlockServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
