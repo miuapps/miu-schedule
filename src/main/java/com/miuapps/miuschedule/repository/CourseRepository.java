@@ -3,6 +3,8 @@ package com.miuapps.miuschedule.repository;
 import com.miuapps.miuschedule.model.Course;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+
+
 /**
  * The interface Course repository.
  */
@@ -22,5 +24,4 @@ public interface CourseRepository extends MongoRepository<Course, String> {
      * @return the course
      */
     Course findCourseByName(String blockName);
-
 }

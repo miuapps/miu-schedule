@@ -6,6 +6,8 @@ import com.miuapps.miuschedule.service.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * The type Course service.
  */
@@ -26,6 +28,27 @@ public class CourseServiceImpl implements ICourseService {
 
     @Override
     public void saveCourse(Course course) {
+        courseRepository.save(course);
+    }
+
+    @Override
+    public List<Course> getCourses() {
+        return courseRepository.findAll();
+    }
+
+    @Override
+    public Course getCourseByID(String courseID) {
+        return courseRepository.findCourseById(courseID);
+    }
+
+    @Override
+    public void deleteCourseByID(String courseID) {
+        courseRepository.deleteById(courseID);
+    }
+
+    @Override
+    public void updateCourse(Course course) {
+        courseRepository.deleteById(course.getId());
         courseRepository.save(course);
     }
 }
