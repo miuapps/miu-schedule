@@ -33,4 +33,12 @@ public interface BlockRepository extends MongoRepository<Block, String> {
      */
     List<Block> findAll();
 
+    /**
+     * Delete block by id block.
+     *
+     * @param blockId the block id
+     * @return the block
+     */
+    Block deleteBlockById(String blockId);
+
 }

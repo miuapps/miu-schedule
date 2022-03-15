@@ -58,5 +58,13 @@ public class BlockController {
         return blockServiceImpl.getBlockById(blockId);
     }
 
-
+    /**
+     * Delete block by id.
+     *
+     * @param blockId the block id
+     */
+    @DeleteMapping("/{id}")
+    public void deleteBlockById(@PathVariable("id") String blockId) {
+        blockServiceImpl.deleteBlockById(blockId);
+    }
 }
