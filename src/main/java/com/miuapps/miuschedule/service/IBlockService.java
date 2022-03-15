@@ -36,4 +36,11 @@ public interface IBlockService {
      * @param blockId the block id
      */
     public void deleteBlockById(String blockId);
+
+    /**
+     * Update block.
+     *
+     * @param block the block
+     */
+    public void updateBlock(Block block);
 }

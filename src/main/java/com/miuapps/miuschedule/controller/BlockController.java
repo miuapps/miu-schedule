@@ -67,4 +67,8 @@ public class BlockController {
     public void deleteBlockById(@PathVariable("id") String blockId) {
         blockServiceImpl.deleteBlockById(blockId);
     }
+    @PutMapping(value = "")
+    public void updateBlock(@RequestBody Block block){
+        blockServiceImpl.updateBlock(block);
+    }
 }

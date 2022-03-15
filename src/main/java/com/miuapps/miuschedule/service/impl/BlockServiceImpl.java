@@ -45,4 +45,10 @@ public class BlockServiceImpl implements IBlockService {
     public void deleteBlockById(String blockId) {
         blockRepository.deleteBlockById(blockId);
     }
+
+    @Override
+    public void updateBlock(Block block) {
+        blockRepository.deleteBlockById(block.getId());
+        blockRepository.save(block);
+    }
 }
