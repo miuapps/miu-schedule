@@ -26,5 +26,11 @@ public interface BlockRepository extends MongoRepository<Block, String> {
      */
     Block findBlockByName(String blockName);
 
+    /**
+     * Return List of saved blocks.
+     *
+     * @return List<Block>
+     */
     List<Block> findAll();
+
 }

@@ -35,4 +35,9 @@ public class BlockServiceImpl implements IBlockService {
     public List<Block> getAllBlock(){
         return blockRepository.findAll();
     }
+
+    @Override
+    public Block getBlockById(String blockId) {
+        return blockRepository.findBlockById(blockId);
+    }
 }

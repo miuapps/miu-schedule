@@ -21,4 +21,12 @@ public interface IBlockService {
      * @return the all block
      */
     public List<Block> getAllBlock();
+
+    /**
+     * Gets block by id.
+     *
+     * @param blockId the block id
+     * @return the block by id
+     */
+    public Block getBlockById(String blockId);
 }

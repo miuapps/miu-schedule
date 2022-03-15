@@ -35,10 +35,27 @@ public class BlockController {
         blockServiceImpl.saveBlock(block);
     }
 
+    /**
+     * Gets all block.
+     *
+     * @return the all block
+     */
     @GetMapping(value="")
     @ResponseBody
     public List<Block> getAllBlock() {
         return blockServiceImpl.getAllBlock();
+    }
+
+    /**
+     * Gets block by id.
+     *
+     * @param blockId the block id
+     * @return the block by id
+     */
+    @GetMapping("/{id}")
+    @ResponseBody
+    public Block getBlockById(@PathVariable("id") String blockId) {
+        return blockServiceImpl.getBlockById(blockId);
     }
 
 
