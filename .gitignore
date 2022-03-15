@@ -15,9 +15,10 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
-*.iws
 *.iml
+*.iws
 *.ipr
+*.DS_Store
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +32,10 @@ build/
 
 ### VS Code ###
 .vscode/
+*.iml
+src/main/main.iml
+src/test/test.iml
+miuschedule.iml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/misc.xml
