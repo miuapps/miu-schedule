@@ -2,13 +2,17 @@ package com.miuapps.miuschedule.service.impl;
 
 import com.miuapps.miuschedule.exceptions.CourseRegisterException;
 import com.miuapps.miuschedule.model.Course;
-import com.miuapps.miuschedule.model.ERole;
 import com.miuapps.miuschedule.model.User;
+import com.miuapps.miuschedule.payload.response.RegisteredCourse;
 import com.miuapps.miuschedule.repository.CourseRepository;
 import com.miuapps.miuschedule.repository.UserRepository;
 import com.miuapps.miuschedule.service.IStudentService;
+import com.miuapps.miuschedule.util.ScheduleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The type Student service.
@@ -17,8 +21,6 @@ import org.springframework.stereotype.Service;
 public class StudentServiceImpl implements IStudentService {
     private CourseRepository courseRepository;
     private UserRepository userRepository;
-    private Course course;
-    private User user;
 
     /**
      * Instantiates a new Student service.
@@ -33,22 +35,36 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public void registerForCourse(String userID, String courseID) throws CourseRegisterException{
-        course = courseRepository.findCourseById(courseID);
-        if(course == null) {
-            throw new CourseRegisterException("Given course id does not belongs to a course.");
+    public void registerForCourse(String userID, String courseID) throws CourseRegisterException {
+        Course course = courseRepository.findCourseById(courseID);
+        User user = userRepository.findUserById(userID);
+        if(ScheduleUtil.isStudent(user) && ScheduleUtil.isCourseExist(course)) {
+            if (course.getUserList() != null && course.getUserList().size() < course.getCapacity()) {
+                courseRepository.deleteById(course.getId());
+                course.addUser(user);
+                courseRepository.save(course);
+            } else {
+                throw new CourseRegisterException("Course capacity is not enough.");
+            }
         }
-        user = userRepository.findUserById(userID);
-        boolean isStudent = user.getRoles().stream().anyMatch(role -> role.getName().equals(ERole.ROLE_STUDENT));
-        if(!isStudent) {
-            throw new CourseRegisterException("Given user id does not belongs to a student.");
+    }
+    @Override
+    public List<RegisteredCourse> getCoursesByStudentId(String studentId) throws CourseRegisterException {
+        User student = userRepository.findUserById(studentId);
+        List<Course> allCourses = courseRepository.findAll();
+        List<RegisteredCourse> registeredCourses = new ArrayList<>();
+        if(ScheduleUtil.isStudent(student) ) {
+            for(Course course : allCourses) {
+                if(ScheduleUtil.isCourseExist(course)
+                        && course.getUserList().stream().anyMatch(userData -> userData.getId().equals(studentId))) {
+                        registeredCourses.add( new RegisteredCourse(course.getBlock().getName(),
+                                course.getCode(), course.getName(),
+                                course.getFaculty().getUsername(),
+                                course.getBlock().getStartDate()));
+
+                }
+            }
         }
-        if (course.getUserList() != null && course.getUserList().size() < course.getCapacity()) {
-            courseRepository.deleteById(course.getId());
-            course.addUser(user);
-            courseRepository.save(course);
-        } else {
-            throw new CourseRegisterException("Course capacity is not enough.");
-        }
+        return registeredCourses;
     }
 }

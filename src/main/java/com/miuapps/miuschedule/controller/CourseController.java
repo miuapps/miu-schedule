@@ -1,8 +1,12 @@
 package com.miuapps.miuschedule.controller;
 
+import com.miuapps.miuschedule.exceptions.CourseRegisterException;
 import com.miuapps.miuschedule.model.Course;
+import com.miuapps.miuschedule.payload.request.CourseRequest;
+import com.miuapps.miuschedule.payload.response.MessageResponse;
 import com.miuapps.miuschedule.service.impl.CourseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +35,16 @@ public class CourseController {
      * @param course the course
      */
     @PostMapping(value = "")
-    public void saveCourse(@RequestBody Course course){
-        courseServiceImpl.saveCourse(course);
+    public ResponseEntity<MessageResponse> saveCourse(@RequestBody CourseRequest course) {
+        try {
+            courseServiceImpl.saveCourse(course);
+            return ResponseEntity.ok(new MessageResponse("Course save operation successful."));
+        } catch (CourseRegisterException exc) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse(exc.getMessage()));
+        }
+
     }
 
     /**
@@ -78,11 +90,4 @@ public class CourseController {
         courseServiceImpl.updateCourse(course);
     }
 
-//    @RequestMapping( value = "/faculty/{fid}", method = RequestMethod.GET)
-////    @GetMapping(value = "/{fid}")
-//    @ResponseBody
-//    public List<Course> getCourseByFid(@PathVariable("fid") String fid){
-//        System.out.println("in controller");
-//        return courseServiceImpl.getCoursesByFid(fid);
-//    }
 }

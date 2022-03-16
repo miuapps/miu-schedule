@@ -29,6 +29,14 @@ public class Course {
     @DBRef
     List<User> userList = new ArrayList<>();
 
+    public Course(String name, String code, int capacity, Block block, User faculty) {
+        this.name = name;
+        this.code = code;
+        this.capacity = capacity;
+        this.block = block;
+        this.faculty = faculty;
+    }
+
     /**
      * Add user.
      *

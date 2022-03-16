@@ -1,12 +1,13 @@
 package com.miuapps.miuschedule.service.impl;
 
-import com.miuapps.miuschedule.model.Course;
-import com.miuapps.miuschedule.model.ERole;
-import com.miuapps.miuschedule.model.Role;
-import com.miuapps.miuschedule.model.User;
+import com.miuapps.miuschedule.exceptions.CourseRegisterException;
+import com.miuapps.miuschedule.model.*;
+import com.miuapps.miuschedule.payload.request.CourseRequest;
+import com.miuapps.miuschedule.repository.BlockRepository;
 import com.miuapps.miuschedule.repository.CourseRepository;
 import com.miuapps.miuschedule.repository.UserRepository;
 import com.miuapps.miuschedule.service.ICourseService;
+import com.miuapps.miuschedule.util.ScheduleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,8 @@ import java.util.List;
 @Service
 public class CourseServiceImpl implements ICourseService {
     private final CourseRepository courseRepository;
-//    @Autowired
-//    private UserRepository userRepository;
+    private final BlockRepository blockRepository;
+    private final UserRepository userRepository;
     /**
      * Instantiates a new Course service.
      * calling repository save from this service implementations.
@@ -28,18 +29,23 @@ public class CourseServiceImpl implements ICourseService {
      * @param courseRepository the course repository
      */
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository) {
+    public CourseServiceImpl(CourseRepository courseRepository, BlockRepository blockRepository,
+                             UserRepository userRepository) {
         this.courseRepository = courseRepository;
+        this.blockRepository = blockRepository;
+        this.userRepository = userRepository;
     }
-//
-//    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository) {
-//        this.courseRepository = courseRepository;
-//        this.userRepository = userRepository;
-//    }
 
     @Override
-    public void saveCourse(Course course) {
-        courseRepository.save(course);
+    public void saveCourse(CourseRequest courseRequest) throws CourseRegisterException {
+        Block block = blockRepository.findBlockById(courseRequest.getBlockId());
+        User faculty = userRepository.findUserById(courseRequest.getFacultyId());
+        if(ScheduleUtil.isFaculty(faculty) && ScheduleUtil.isBlockExist(block)) {
+            Course course = new Course(courseRequest.getName(),courseRequest.getCode(),
+                    courseRequest.getCapacity(),
+                    block, faculty);
+            courseRepository.save(course);
+        }
     }
 
     @Override
@@ -63,24 +69,4 @@ public class CourseServiceImpl implements ICourseService {
         courseRepository.save(course);
     }
 
-//    @Override
-//    public List<Course> getCoursesByFid(String Fid) {
-//        List<Course> taught = new ArrayList<>();
-//        List<Course> allCourses = courseRepository.findAll();
-//        List<User> allUser;
-//        User user = userRepository.findUserById(Fid);
-//        if(user.getRoles().contains(new Role(ERole.ROLE_FACULTY))){
-//            System.out.println("inside");
-//            for(Course c: allCourses){
-//                allUser = c.getUserList();
-//                for(User us:allUser){
-//                    if(us.getId().equals(Fid)){
-//                        taught.add(c);
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//        return taught;
-//    }
 }

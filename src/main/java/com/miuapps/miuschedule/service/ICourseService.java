@@ -1,6 +1,8 @@
 package com.miuapps.miuschedule.service;
 
+import com.miuapps.miuschedule.exceptions.CourseRegisterException;
 import com.miuapps.miuschedule.model.Course;
+import com.miuapps.miuschedule.payload.request.CourseRequest;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ public interface ICourseService {
      *
      * @param course the course
      */
-    void saveCourse(Course course);
+    void saveCourse(CourseRequest course) throws CourseRegisterException;
 
     /**
      * Gets all courses.
