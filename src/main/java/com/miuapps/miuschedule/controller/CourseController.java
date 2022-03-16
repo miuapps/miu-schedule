@@ -78,6 +78,11 @@ public class CourseController {
         courseServiceImpl.updateCourse(course);
     }
 
-
-
+//    @RequestMapping( value = "/faculty/{fid}", method = RequestMethod.GET)
+////    @GetMapping(value = "/{fid}")
+//    @ResponseBody
+//    public List<Course> getCourseByFid(@PathVariable("fid") String fid){
+//        System.out.println("in controller");
+//        return courseServiceImpl.getCoursesByFid(fid);
+//    }
 }

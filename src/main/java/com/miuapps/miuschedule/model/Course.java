@@ -19,6 +19,10 @@ public class Course {
     private int capacity;
     @DBRef
     private Block block;
+
+    @DBRef
+    private User faculty;
+
     /**
      * The User list.
      */

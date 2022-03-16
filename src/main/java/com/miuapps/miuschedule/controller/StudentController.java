@@ -1,7 +1,11 @@
 package com.miuapps.miuschedule.controller;
 
+import com.miuapps.miuschedule.exceptions.CourseRegisterException;
+import com.miuapps.miuschedule.payload.response.MessageResponse;
+import com.miuapps.miuschedule.service.impl.FacultyServiceImpl;
 import com.miuapps.miuschedule.service.impl.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -29,8 +33,18 @@ public class StudentController {
      * @param courseId the course id
      */
     @GetMapping(value = "/registerCourse")
-    public void addCourse(@RequestParam String userId,
-                               @RequestParam String courseId){
-        studentServiceImpl.addUser(userId, courseId);
+    public ResponseEntity<MessageResponse> addCourse(@RequestParam String userId,
+                                                     @RequestParam String courseId){
+        try {
+            studentServiceImpl.registerForCourse(userId, courseId);
+            return ResponseEntity.ok(new MessageResponse("Course registration successful."));
+        } catch (CourseRegisterException exc) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse(exc.getMessage()));
+        }
+
     }
+
+
 }

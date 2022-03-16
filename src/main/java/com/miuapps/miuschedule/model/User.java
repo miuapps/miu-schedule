@@ -9,7 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -45,6 +47,10 @@ public class User {
      * @param email    the email
      * @param password the password
      */
+    @DBRef
+    List<Course> courseList = new ArrayList<>();
+
+
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
