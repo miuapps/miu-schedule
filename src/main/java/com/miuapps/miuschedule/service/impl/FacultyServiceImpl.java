@@ -2,7 +2,9 @@ package com.miuapps.miuschedule.service.impl;
 
 import com.miuapps.miuschedule.exceptions.CourseRegisterException;
 import com.miuapps.miuschedule.model.Course;
+import com.miuapps.miuschedule.model.ERole;
 import com.miuapps.miuschedule.model.User;
+import com.miuapps.miuschedule.payload.response.UserResponse;
 import com.miuapps.miuschedule.repository.CourseRepository;
 import com.miuapps.miuschedule.repository.UserRepository;
 import com.miuapps.miuschedule.service.IFacultyService;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Faculty service.
+ */
 @Service
 public class FacultyServiceImpl implements IFacultyService {
     private final CourseRepository courseRepository;
@@ -43,5 +48,17 @@ public class FacultyServiceImpl implements IFacultyService {
             }
         }
         return courses;
+    }
+
+    @Override
+    public List<UserResponse> getFaculties() {
+        List<User> users = userRepository.findAll();
+        List<User> faculties = users.stream().filter(user -> user.getRoles().stream()
+                .anyMatch(role -> role.getName().equals(ERole.ROLE_FACULTY))).toList();
+        List<UserResponse> editedFaculties = new ArrayList<>();
+        for(User faculty : faculties) {
+            editedFaculties.add(new UserResponse(faculty.getId(), faculty.getUsername()));
+        }
+        return editedFaculties;
     }
 }
