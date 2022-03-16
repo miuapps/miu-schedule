@@ -32,4 +32,13 @@ public interface UserRepository extends MongoRepository<User, String> {
      * @return the boolean
      */
     Boolean existsByEmail(String email);
+
+    /**
+     * Find user by id user.
+     *
+     * @param userId the user id
+     * @return the user
+     */
+    User findUserById(String userId);
+
 }

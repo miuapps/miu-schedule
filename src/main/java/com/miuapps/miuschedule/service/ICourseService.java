@@ -44,5 +44,7 @@ public interface ICourseService {
      */
     void updateCourse(Course course);
 
+    //List<Course> getCoursesByFid(String Fid);
+
 }
 
