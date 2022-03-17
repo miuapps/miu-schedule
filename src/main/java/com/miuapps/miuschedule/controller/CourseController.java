@@ -3,6 +3,7 @@ package com.miuapps.miuschedule.controller;
 import com.miuapps.miuschedule.exceptions.CourseRegisterException;
 import com.miuapps.miuschedule.model.Course;
 import com.miuapps.miuschedule.payload.request.CourseRequest;
+import com.miuapps.miuschedule.payload.response.CourseBlockResponse;
 import com.miuapps.miuschedule.payload.response.MessageResponse;
 import com.miuapps.miuschedule.service.impl.CourseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,12 @@ public class CourseController {
     @ResponseBody
     public List<Course> getCourses(){
         return courseServiceImpl.getCourses();
+    }
+
+    @GetMapping(value = "blockCourse")
+    @ResponseBody
+    public List<CourseBlockResponse> getCoursesByBlock(){
+        return courseServiceImpl.getCoursesGroupByBlock();
     }
 
     /**

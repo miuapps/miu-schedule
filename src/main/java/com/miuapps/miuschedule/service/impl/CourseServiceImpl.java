@@ -3,6 +3,7 @@ package com.miuapps.miuschedule.service.impl;
 import com.miuapps.miuschedule.exceptions.CourseRegisterException;
 import com.miuapps.miuschedule.model.*;
 import com.miuapps.miuschedule.payload.request.CourseRequest;
+import com.miuapps.miuschedule.payload.response.CourseBlockResponse;
 import com.miuapps.miuschedule.repository.BlockRepository;
 import com.miuapps.miuschedule.repository.CourseRepository;
 import com.miuapps.miuschedule.repository.UserRepository;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The type Course service.
@@ -51,6 +54,26 @@ public class CourseServiceImpl implements ICourseService {
     @Override
     public List<Course> getCourses() {
         return courseRepository.findAll();
+    }
+
+    @Override
+    public List<CourseBlockResponse> getCoursesGroupByBlock() {
+        HashMap<String, List<Course>> map = new HashMap<>();
+        List<Course> allCourses = courseRepository.findAll();
+        for(Course course : allCourses) {
+            if(map.containsKey(course.getBlock().getName())) {
+                map.get(course.getBlock().getName()).add(course);
+            } else {
+                List<Course> addCourse = new ArrayList<>();
+                addCourse.add(course);
+                map.put(course.getBlock().getName(),addCourse);
+            }
+        }
+        List<CourseBlockResponse> response = new ArrayList<>();
+        for(Map.Entry<String,List<Course>> entry :  map.entrySet()) {
+            response.add(new CourseBlockResponse(entry.getKey(), entry.getValue()));
+        }
+        return response;
     }
 
     @Override
